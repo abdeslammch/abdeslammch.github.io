@@ -94,6 +94,7 @@ header {
     position: relative;
     bottom: -638px;
     z-index: 100;
+    left: 160px;
 }
 
 #skip-button:hover {
