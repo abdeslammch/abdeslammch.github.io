@@ -74,6 +74,14 @@ header {
     position: relative;
     bottom: -697px;
 }
+#info-title {
+    color: #FF931E;
+    font-size: 4em;
+    margin-bottom: 10px;
+    font-family: 'Yeseva One', sans-serif;
+    position: relative;
+    bottom: -767px;
+}
 
 #info-paragraph {
     font-size: 21px;
