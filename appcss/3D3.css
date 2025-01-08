@@ -52,7 +52,7 @@ header {
 
 #info-container {
     position: absolute;
-    bottom: -5%;
+    bottom: -13%;
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.7);
@@ -60,19 +60,10 @@ header {
     padding: 20px;
     border-radius: 10px;
     text-align: center;
-    z-index: 80;
+    z-index: -1;
     width: 105%;
     max-width: 100%;
-    height: 101%;
-}
-
-#info-title {
-    color: #FF931E;
-    font-size: 4em;
-    margin-bottom: 10px;
-    font-family: 'Yeseva One', sans-serif;
-    position: relative;
-    bottom: -533px;
+    height: 128%;
 }
 
 #info-paragraph {
@@ -81,7 +72,16 @@ header {
     font-family: 'Josefin Sans', sans-serif;
     MARGIN: 100px;
     position: relative;
-    bottom: -451px;
+    bottom: -697px;
+}
+
+#info-paragraph {
+    font-size: 21px;
+    margin-bottom: 20px;
+    font-family: 'Josefin Sans', sans-serif;
+    MARGIN: 100px;
+    position: relative;
+    bottom: -697px;
 }
 #skip-button {
     background-color: #000000;
@@ -93,8 +93,8 @@ header {
     border-radius: 58px;
     border: inset;
     position: relative;
-    bottom: -386px;
-    z-index: 10;
+    bottom: -638px;
+    z-index: 100;
 }
 
 #skip-button:hover {
