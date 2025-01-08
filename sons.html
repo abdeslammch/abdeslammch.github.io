@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Marie Curie - Application</title>
+    <link rel="stylesheet" href="appcss/3D2.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
+    <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+    <script>
+        THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/';
+    </script>
+</head>
+
+<body style='margin: 0; overflow: hidden; font-family: Monospace;'>
+    <video autoplay muted playsinline id="arjs-video" style="width: 100%; height: auto; position: absolute; top: 0; left: 0; z-index: -1;"></video>
+    <canvas id="arCanvas" style="position: absolute; top: 0; left: 0; z-index: -1;"></canvas>
+
+    <header>
+        <div class="title">Marie Curie</div>
+        <nav class="menu">
+            <span>|</span>
+            <a href="#">Radium</a>
+            <span>|</span>
+            <a href="reveil.html">Réveil Bayard</a>
+            <span>|</span>
+            <a href="3D.html">Prix Nobel</a>
+            <span>|</span>
+            <a href="#">Voiture Radiologique</a>
+            <span>|</span>
+            <a href="#">Institut Curie</a>
+            <span>|</span>
+        </nav>
+    </header>
+
+    <!-- Conteneur pour le titre, le paragraphe et le bouton -->
+    <div id="info-container" style="display:none;">
+        <h1 id="info-title">Radium</h1>
+        <p id="info-paragraph">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonu
+            mmy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volut</p>
+        <button id="skip-button">Passer</button>
+        <!-- Ajouter un lecteur audio -->
+        <audio id="audio-player" controls>
+            <source src="data/Test-Charlotte-lettre entière.mp3" type="audio/mp3">
+            Votre navigateur ne prend pas en charge la lecture audio.
+        </audio>
+    </div>
+
+    <script>
+        var renderer = new THREE.WebGLRenderer({
+            alpha: true
+        });
+        renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.domElement.id = 'arCanvas';
+        document.body.appendChild(renderer.domElement);
+
+        var onRenderFcts = [];
+        var scene = new THREE.Scene();
+        var camera = new THREE.Camera();
+        scene.add(camera);
+
+        var arToolkitSource = new THREEx.ArToolkitSource({
+            sourceType: 'webcam',
+        });
+
+        arToolkitSource.init(function onReady() {
+            onResize()
+        });
+
+        window.addEventListener('resize', function () {
+            onResize()
+        });
+
+        function onResize() {
+            arToolkitSource.onResizeElement()
+            arToolkitSource.copyElementSizeTo(renderer.domElement)
+            if (arToolkitContext.arController !== null) {
+                arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas)
+            }
+        }
+
+        var arToolkitContext = new THREEx.ArToolkitContext({
+            cameraParametersUrl: 'data/camera_para.dat',
+            detectionMode: 'mono',
+            maxDetectionRate: 50,
+            canvasWidth: 100 * 5,
+            canvasHeight: 100 * 5,
+        });
+
+        arToolkitContext.init(function onCompleted() {
+            camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+            artoolkitMarker.addEventListener('markerFound', function (event) {
+                console.log("trouvé !!!!!!!!!!!!!!!");
+                // Affiche le conteneur d'informations et le lecteur audio
+                document.getElementById('info-container').style.display = 'block';
+                // Démarre la lecture automatique de la musique
+                document.getElementById('audio-player').play();
+            });
+        });
+
+        onRenderFcts.push(function () {
+            if (arToolkitSource.ready === false) return
+            arToolkitContext.update(arToolkitSource.domElement)
+        });
+
+        var markerRoot = new THREE.Group;
+        scene.add(markerRoot);
+        var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
+            type: 'pattern',
+            patternUrl: 'data/fee.patt'
+        });
+
+        var smoothedRoot = new THREE.Group();
+        scene.add(smoothedRoot);
+        var smoothedControls = new THREEx.ArSmoothedControls(smoothedRoot, {
+            lerpPosition: 0.4,
+            lerpQuaternion: 0.3,
+            lerpScale: 1,
+        });
+        onRenderFcts.push(function (delta) {
+            smoothedControls.update(markerRoot)
+        });
+
+        var arWorldRoot = smoothedRoot;
+
+        onRenderFcts.push(function () {
+            renderer.render(scene, camera);
+        });
+
+        var lastTimeMsec = null;
+        requestAnimationFrame(function animate(nowMsec) {
+            requestAnimationFrame(animate);
+            lastTimeMsec = lastTimeMsec || nowMsec - 1000 / 60
+            var deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
+            lastTimeMsec = nowMsec;
+            onRenderFcts.forEach(function (onRenderFct) {
+                onRenderFct(deltaMsec / 1000, nowMsec / 1000)
+            });
+        });
+
+        // Ajoutez le gestionnaire d'événements pour le bouton "Passer"
+        document.getElementById('skip-button').addEventListener('click', function() {
+            // Rediriger vers une autre page après avoir cliqué sur le bouton
+            window.location.href = 'reveil.html'; // Remplace par l'URL de destination
+        });
+    </script>
+</body>
+
+</html>

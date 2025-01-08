@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marie Curie - Application</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="appcss/css1.css">
+</head>
+<body>
+    <header>
+        <div class="title">Marie Curie</div>
+        <nav class="menu">
+            <span>|</span>
+            <a href="#">Radium</a>
+            <span>|</span>
+            <a href="#">Réveil Bayard</a>
+            <span>|</span>
+            <a href="#">Prix Nobel</a>
+            <span>|</span>
+            <a href="#">Voiture Radiologique</a>
+            <span>|</span>
+            <a href="#">Institut Curie</a>
+            <span>|</span>
+        </nav>
+    </header>
+
+    <div class="image-container">
+        <img src="img/P.jpg" alt="Salle Marie Curie">
+        <div class="image-text">Bienvenue dans la salle <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Marie Curie</b><br></div>
+    </div>
+    <img src="img/Marie.png" alt="Image superposée" class="image2">
+    
+    <div class="new-text">Découvrez de quelle manière<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elle a contribué à <br>
+        la Première Guerre mondiale</div>
+    <div class="final-text">&nbsp;&nbsp;Pour commencer l'expérience,<br>
+        &nbsp;scannez un objet qui se trouve <br>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sur le bureau.</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('click', function () {
+                var oldText = document.querySelector('.image-text');
+                var oldImage = document.querySelector('.image2');
+                var newText = document.querySelector('.new-text');
+                var finalText = document.querySelector('.final-text');
+
+                if (oldText && oldImage && newText && finalText) {
+                    if (oldText.style.display !== 'none') {
+                        oldText.style.display = 'none';
+                        oldImage.style.display = 'none';
+                        newText.style.display = 'block';
+                    } else if (newText.style.display !== 'none') {
+                        newText.style.display = 'none';
+                        finalText.style.display = 'block';
+                    } else if (finalText.style.display !== 'none') {
+                        finalText.style.display = 'none';
+                        oldText.style.display = 'block';
+                        oldImage.style.display = 'block';
+
+                        // Redirige vers 3D.html après avoir cliqué une dernière fois
+                        window.location.href = '3D.html';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

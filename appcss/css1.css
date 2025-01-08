@@ -1,0 +1,109 @@
+/* Styles pour la page */
+
+/* Définir les propriétés globales */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Empêche le défilement si le contenu dépasse */
+}
+
+/* Barre de navigation */
+header {
+    width: 100%;
+    background-color: #fff;
+    padding: 4px 18px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    font-family: 'Yeseva One', sans-serif;
+}
+
+.title {
+    color: #FF931E;
+    font-size: 32px;
+    font-weight: normal;
+    margin-right: 20px; /* Espace entre le titre et la navigation */
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+}
+
+.menu span {
+    color: #333;
+    font-size: 58px;
+}
+
+/* Conteneur des images */
+.image-container {
+    width: 101%;
+    height: calc(103% - 115px);
+    position: relative;
+}
+
+/* Image principale */
+.image-container img {
+    width: 181%;
+    height: 102%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Texte superposé */
+.image-text {
+    position: absolute;
+    top: 84px;
+    left: 99px;
+    font-size: 60px;
+    line-height: 1.5;
+    color: #FF931E;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+/* Image superposée */
+.image2 {
+    position: absolute;
+    top: 67%;
+    left: 56%;
+    transform: translate(-50%, -50%);
+    width: 78%;
+    height: auto;
+    z-index: 3;
+}
+
+/* Nouveau texte */
+.new-text {
+    position: fixed;
+    top: 465px;
+    left: 61px;
+    font-size: 49px;
+    color: #FF931E;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    font-family: 'Josefin Sans', sans-serif;
+    display: none;
+}
+.final-text {
+    position: fixed;
+    top: 465px;
+    left: 31px;
+    font-size: 49px;
+    color: #FF931E;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    font-family: 'Josefin Sans', sans-serif;
+    display: none;
+}
